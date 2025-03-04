@@ -16,11 +16,11 @@ class Category extends Model
         'user_id',
     ];
 
-    public function weblogs () {
-        return $this->hasMany(Weblog::class);
+    public function weblogs() {
+        return $this->belongsToMany(Weblog::class);
     }
 
-    public function user () {
+    public function user() {
         return $this->belongsTo(User::class);
     }
 }

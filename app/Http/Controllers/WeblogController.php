@@ -17,6 +17,9 @@ class WeblogController extends Controller
      */
     public function index()
     {
+        $category = Category::find(1);
+        echo $category->weblogs;
+
         $weblogs = Weblog::orderBy('created_at', 'desc')->get();
         return view('weblogs.index', compact('weblogs'));
     }
