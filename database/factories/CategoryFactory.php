@@ -4,12 +4,11 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
-use App\Models\Category;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Weblog>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
  */
-class WeblogFactory extends Factory
+class CategoryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,10 +18,8 @@ class WeblogFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->word,
-            'body' => $this->faker->sentence,
+            'name' => $this->faker->word,
             'user_id' => User::inRandomOrder()->first()->id,
-            'category_id' => Category::inRandomOrder()->first()->id,
         ];
     }
 }

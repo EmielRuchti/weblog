@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreCommentRequest;
-use App\Http\Requests\UpdateCommentRequest;
-use App\Models\Comment;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 
-class CommentController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $user_id = Auth::id();
+        $categories = Category::where('user_id', $user_id)->get();
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -23,19 +24,18 @@ class CommentController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCommentRequest $request, string $weblog_id)
+    public function store(StoreCategoryRequest $request)
     {
         $validated = $request->validated();
-        $validated['weblog_id'] = $weblog_id;
         $validated['user_id'] = Auth::id();
-        Comment::create($validated);
-        return redirect()->back();
+        Category::create($validated);
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -49,7 +49,7 @@ class CommentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Category $category)
     {
         //
     }

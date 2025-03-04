@@ -23,8 +23,6 @@ class UpdateCommentRequest extends FormRequest
     {
         return [
             'body' => 'nullable',
-            'weblog_id' => 'required|exists:weblog,id',
-            'user_id' => 'required|exists:users,id',
         ];
     }
 }

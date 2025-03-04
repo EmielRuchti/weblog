@@ -23,13 +23,11 @@
 
     <div>
         <h1>Geef je mening!</h1>
-        <form action="{{ route('comments.store') }}" method="POST">
+        <form action="{{ route('comments.store', $weblog->id)}}" method="POST">
         @csrf
         <label for="body">Text:</label>
         <textarea id="body" name="body"></textarea>
         <br>
-        <input type="hidden" name="weblog_id" value="{{$weblog->id}}" />
-        <input type="hidden" name="user_id" value="1" />
         <button type="submit">Plaats commentaar</button>
         </form>
     </div>

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.login')
 
 @section('title', 'Login')
 
@@ -14,4 +14,8 @@
     <br>
     <button type="submit">Log in</button>
     </form>
+
+    @if($errors->any())
+    <h3>{{$errors->first()}}</h3>
+    @endif
 @endsection

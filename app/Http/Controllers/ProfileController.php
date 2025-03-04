@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreCommentRequest;
-use App\Http\Requests\UpdateCommentRequest;
-use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 
-class CommentController extends Controller
+use App\Models\Weblog;
+
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $user_id = Auth::id();
+        $weblogs = Weblog::where('user_id', $user_id)->orderBy('created_at', 'desc')->get();
+        return view('weblogs.profile', compact('weblogs'));
     }
 
     /**
@@ -29,13 +30,9 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCommentRequest $request, string $weblog_id)
+    public function store(Request $request)
     {
-        $validated = $request->validated();
-        $validated['weblog_id'] = $weblog_id;
-        $validated['user_id'] = Auth::id();
-        Comment::create($validated);
-        return redirect()->back();
+        //
     }
 
     /**

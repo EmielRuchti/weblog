@@ -12,7 +12,13 @@
     <label for="body">Text:</label>
     <textarea id="body" name="body"></textarea>
     <br>
-    <input type="hidden" name="user_id" value="1" />
+    <label for="category">Categorie:</label>
+    <select name="category_id" id="category" required>
+        @foreach($categories as $category)
+            <option value="{{ $category->id }}">{{ $category->name }}</option>
+        @endforeach
+    </select>
+    <br>
     <button type="submit">Opslaan</button>
     </form>
 @endsection
