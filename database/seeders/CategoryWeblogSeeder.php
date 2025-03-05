@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
+use Database\Factories\CategoryWeblogFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Category;
 
-class CategorySeeder extends Seeder
+class CategoryWeblogSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Category::factory()->count(10)->create();
+        //CategoryWeblogFactory->count(50)->create();
     }
 }

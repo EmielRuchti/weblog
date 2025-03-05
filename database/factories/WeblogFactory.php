@@ -22,7 +22,6 @@ class WeblogFactory extends Factory
             'title' => $this->faker->word,
             'body' => $this->faker->sentence,
             'user_id' => User::inRandomOrder()->first()->id,
-            'category_id' => Category::inRandomOrder()->first()->id,
         ];
     }
 }

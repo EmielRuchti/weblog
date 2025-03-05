@@ -4,7 +4,7 @@
 
 @section('content')
 <h1>Item Bewerken</h1>
-<form action="{{ route('weblogs.update', $weblog->id) }}" method="POST">
+<form action="{{ route('weblogs.update', $weblog->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <label for="title">Titel:</label>
@@ -14,13 +14,16 @@
     <textarea id="body" name="body">{{ $weblog->body }}</textarea>
     <br>
     <label for="category">Categorie:</label>
-    <select name="category_id" id="category" required>
+    <br>
+    <select name="category_ids[]" id="category" multiple required>
         @foreach($categories as $category)
-            <option value="{{ $category->id }}" {{ $weblog->category_id == $category->id ? 'selected' : '' }}>
-                {{ $category->name }}
-            </option>
+            <option name='categories_id[]' value="{{ $category->id }}">{{ $category->name }}</option>
         @endforeach
     </select>
+    <br>
+    <label for="image">Afbeelding:</label>
+    <br>
+    <input type='file' name='image' id='image'>
     <br>
     <button type="submit">Bijwerken</button>
 </form>

@@ -4,7 +4,7 @@
 
 @section('content')
     <h1>Nieuwe weblog aanmaken</h1>
-    <form action="{{ route('weblogs.store') }}" method="POST">
+    <form action="{{ route('weblogs.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <label for="title">Titel:</label>
     <input type="text" id="title" name="title" required>
@@ -13,11 +13,16 @@
     <textarea id="body" name="body"></textarea>
     <br>
     <label for="category">Categorie:</label>
-    <select name="category_id" id="category" required>
+    <br>
+    <select name="category_ids[]" id="category" multiple required>
         @foreach($categories as $category)
-            <option value="{{ $category->id }}">{{ $category->name }}</option>
+            <option name="category_ids[]" value="{{ $category->id }}">{{ $category->name }}</option>
         @endforeach
     </select>
+    <br>
+    <label for="image">Afbeelding:</label>
+    <br>
+    <input type='file' name='image' id='image'>
     <br>
     <button type="submit">Opslaan</button>
     </form>

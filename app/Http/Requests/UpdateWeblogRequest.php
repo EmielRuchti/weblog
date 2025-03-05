@@ -24,7 +24,7 @@ class UpdateWeblogRequest extends FormRequest
         return [
             'title' => 'required|max:255',
             'body' => 'nullable',
-            'category_id' => 'required|exists:categories,id',
+            //'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }

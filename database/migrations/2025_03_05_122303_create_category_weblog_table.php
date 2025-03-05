@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('weblogs', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('body');
-            $table->string('image')->nullable();
-            $table->foreignId('user_id');
-            $table->timestamps();
+        Schema::create('category_weblog', function (Blueprint $table) {
+            $table->foreignId('weblog_id');
+            $table->foreignId('category_id');
+            $table->primary(['weblog_id', 'category_id']);
         });
     }
 
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('weblogs');
+        Schema::dropIfExists('category_weblog');
     }
 };

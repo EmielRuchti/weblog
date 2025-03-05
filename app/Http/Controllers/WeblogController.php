@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Http\Requests\StoreWeblogRequest;
 use App\Http\Requests\UpdateWeblogRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class WeblogController extends Controller
 {
@@ -17,11 +18,9 @@ class WeblogController extends Controller
      */
     public function index()
     {
-        $category = Category::find(1);
-        echo $category->weblogs;
-
+        $categories = Category::all();
         $weblogs = Weblog::orderBy('created_at', 'desc')->get();
-        return view('weblogs.index', compact('weblogs'));
+        return view('weblogs.index', compact('weblogs', 'categories'));
     }
 
     /**
@@ -29,7 +28,7 @@ class WeblogController extends Controller
      */
     public function create()
     {
-        $categories = Category::where('user_id', Auth::id())->get();
+        $categories = Category::all();
         return view('weblogs.create', compact('categories'));
     }
 
@@ -38,9 +37,18 @@ class WeblogController extends Controller
      */
     public function store(StoreWeblogRequest $request)
     {
+        $category_ids = $request->input('category_ids');
+        if ($request->image) {
+            $imageName = $request->image->getClientOriginalName();
+            Storage::put($imageName, file_get_contents($request->image));
+            //dd($validated);
+        }
+        
         $validated = $request->validated();
+        $validated['image'] = $imageName;
         $validated['user_id'] = Auth::id();
-        Weblog::create($validated);
+        $weblog = Weblog::create($validated);
+        $weblog->categories()->sync(array_values($category_ids));
         return redirect()->route('weblogs.index');
     }
 
@@ -49,8 +57,11 @@ class WeblogController extends Controller
      */
     public function show(Weblog $weblog)
     {
+        $categories = $weblog->categories()->get();
         $comments = Comment::where('weblog_id', $weblog->id)->get();
-        return view('weblogs.show', compact('weblog', 'comments'));
+        $image = Storage::url($weblog->image);
+        //dd($image);
+        return view('weblogs.show', compact('weblog', 'comments', 'categories', 'image'));
     }
 
     /**
@@ -58,11 +69,8 @@ class WeblogController extends Controller
      */
     public function edit(Weblog $weblog)
     {
-        if ($weblog->user_id === Auth::id()) {
-            $categories = Category::where('user_id', Auth::id())->get();
-            return view('weblogs.edit', compact('weblog', 'categories'));
-        }
-        return redirect()->route('weblogs.index');
+        $categories = Category::all();
+        return view('weblogs.edit', compact('weblog', 'categories'));
     }
 
     /**
@@ -73,6 +81,9 @@ class WeblogController extends Controller
         $validated = $request->validated();
         if ($weblog->user_id === Auth::id()) {
             $weblog->update($validated);
+            $category_ids = $request->input('category_ids');
+            $validated = $request->validated();
+            $weblog->categories()->sync(array_values($category_ids));
             return redirect()->route('profile.index');
         }
         return back()->withErrors([

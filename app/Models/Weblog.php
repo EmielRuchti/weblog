@@ -13,10 +13,10 @@ class Weblog extends Model
         'title',
         'body',
         'user_id',
-        'category_id',
+        'image',
     ];
 
-    public function weblog () {
+    public function user () {
         return $this->belongsTo(User::class);
     }
 

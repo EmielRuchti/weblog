@@ -14,14 +14,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('user_id');
             $table->timestamps();
-        });
-
-        Schema::create('category_weblog', function (Blueprint $table) {
-            $table->foreignId('weblog_id');
-            $table->foreignId('category_id');
-            $table->primary(['weblog_id', 'category_id']);
         });
     }
 

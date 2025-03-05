@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Category;
+use App\Models\Weblog;
 use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
@@ -14,8 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $user_id = Auth::id();
-        $categories = Category::where('user_id', $user_id)->get();
+        $categories = Category::all();
         return view('categories.index', compact('categories'));
     }
 
@@ -33,7 +33,6 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         $validated = $request->validated();
-        $validated['user_id'] = Auth::id();
         Category::create($validated);
         return redirect()->route('categories.index');
     }
@@ -41,9 +40,14 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
+    public function show(Request $request)
+    {   
+        $category_ids = $request->input('category_ids');
+        if ($category_ids[0] === 'select') return redirect()->route('weblogs.index');
+
+        $categories = Category::all();
+        $weblogs = Weblog::whereHas('categories', fn($query) => $query->whereIn('categories.id', array_values($category_ids)))->orderBy('created_at', 'desc')->get();
+        return view('weblogs.index', compact('weblogs','categories'));
     }
 
     /**

@@ -18,7 +18,10 @@ class Comment extends Model
     ];
 
     public function weblog () {
-        return $this->belongsTo(User::class);
         return $this->belongsTo(Weblog::class);
+    }
+
+    public function user () {
+        return $this->belongsTo(User::class);
     }
 }

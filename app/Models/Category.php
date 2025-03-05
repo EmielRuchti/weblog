@@ -13,14 +13,9 @@ class Category extends Model
 
     protected $fillable = [
         'name',
-        'user_id',
     ];
 
     public function weblogs() {
         return $this->belongsToMany(Weblog::class);
-    }
-
-    public function user() {
-        return $this->belongsTo(User::class);
     }
 }

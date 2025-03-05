@@ -5,7 +5,19 @@
 @section('content')
     <h1>{{ $weblog->title }}</h1>
     <div>
+        Categorien:
+        @foreach($categories as $category)
+            {{$category->name}} -
+        @endforeach
+    </div>
+    <div>
+        <h3>Text:</h3>
         {{ $weblog->body }}
+    </div>
+
+    <div>
+        <h3>Afbeelding:</h3>
+        <img src="{{$image}}" alt=''>
     </div>
 
     <div>
