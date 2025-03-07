@@ -47,7 +47,12 @@ class CategoryController extends Controller
         if ($category_ids[0] === 'select') return redirect()->route('weblogs.index');
 
         $categories = Category::all();
-        $weblogs = Weblog::whereHas('categories', fn($query) => $query->whereIn('categories.id', array_values($category_ids)))->where('premium',$is_premium)->orderBy('created_at', 'desc')->get();
+
+        $category = Category::where('id', $category_ids[0])->with('weblogs')->first();
+
+        $weblogs = $category->weblogs;
+        
+        // $weblogs = Weblog::whereHas('categories', fn($query) => $query->whereIn('categories.id', array_values($category_ids)))->where('premium',$is_premium)->orderBy('created_at', 'desc')->get();
         return view('weblogs.index', compact('weblogs','categories'));
     }
 

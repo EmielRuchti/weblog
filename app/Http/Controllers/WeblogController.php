@@ -38,7 +38,7 @@ class WeblogController extends Controller
         $categories = Category::all();
         return view('weblogs.create', compact('categories'));
     }
-
+    
     /**
      * Store a newly created resource in storage.
      */

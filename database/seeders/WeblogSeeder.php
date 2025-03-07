@@ -13,6 +13,8 @@ class WeblogSeeder extends Seeder
      */
     public function run(): void
     {
-        Weblog::factory()->count(50)->create();
+        $weblogs = Weblog::factory()->count(50)->create();
+
+        // loopje over weblogs om categorieën te syncen 
     }
 }

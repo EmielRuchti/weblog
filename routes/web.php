@@ -13,7 +13,7 @@ Route::get('/', function () {
 });
 
 Route::get('/weblogs', [WeblogController::class, 'index'])->name('weblogs.index');
-Route::get('/weblogs/create', [WeblogController::class, 'create'])->name('weblogs.create')->middleware('auth.basic');;
+Route::get('/weblogs/create', [WeblogController::class, 'create'])->name('weblogs.create')->middleware('auth.basic');
 Route::post('/weblogs', [WeblogController::class, 'store'])->name('weblogs.store');
 Route::get('/weblogs/{weblog}', [WeblogController::class, 'show'])->name('weblogs.show');
 Route::delete('/weblogs/{weblog}', [WeblogController::class, 'destroy'])->name('weblogs.destroy');
@@ -27,7 +27,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('/weblogs/{weblog_id}/comments', [CommentController::class, 'store'])->name('comments.store');
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index')->middleware('auth.basic');
-Route::get('/profile/premium', [ProfileController::class, 'premium'])->name('profile.premium')->middleware('auth.basic');;
+Route::get('/profile/premium', [ProfileController::class, 'premium'])->name('profile.premium')->middleware('auth.basic');
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
