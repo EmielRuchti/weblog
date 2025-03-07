@@ -48,10 +48,12 @@ class CategoryController extends Controller
 
         $categories = Category::all();
 
-        $category = Category::where('id', $category_ids[0])->with('weblogs')->first();
+        $category = Category::whereIn('id', $category_ids)->with('weblogs')->first();
 
+        //Doesnt filter yet
         $weblogs = $category->weblogs;
         
+        //Does filter
         // $weblogs = Weblog::whereHas('categories', fn($query) => $query->whereIn('categories.id', array_values($category_ids)))->where('premium',$is_premium)->orderBy('created_at', 'desc')->get();
         return view('weblogs.index', compact('weblogs','categories'));
     }
