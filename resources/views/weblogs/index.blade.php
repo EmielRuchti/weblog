@@ -24,13 +24,19 @@
             <tr>
                 <th>Titel</th>
                 <th>Datum</th>
+                <th>Premium</th>
             </tr>
         </thead>
         <tbody>
             @foreach($weblogs as $weblog)
                 <tr>
-                <td><a href="{{ route('weblogs.show', $weblog->id)}}">{{ $weblog->title }}</a></td>
+                    <td><a href="{{ route('weblogs.show', $weblog->id)}}">{{ $weblog->title }}</a></td>
                     <td>{{ $weblog->created_at }}</td>
+                    @if($weblog->premium === 1)
+                        <td>Premium weblog</td>
+                    @else
+                        <td>Normale weblog</td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>

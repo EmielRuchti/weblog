@@ -18,8 +18,15 @@ class WeblogController extends Controller
      */
     public function index()
     {
+        $is_premium = Auth::check() ? Auth::user()->premium : 0;
+
+        if($is_premium === 1) {
+            $weblogs = Weblog::orderBy('created_at', 'desc')->get();
+        } else {
+            $weblogs = Weblog::where('premium', 0)->orderBy('created_at', 'desc')->get();
+        }
+
         $categories = Category::all();
-        $weblogs = Weblog::orderBy('created_at', 'desc')->get();
         return view('weblogs.index', compact('weblogs', 'categories'));
     }
 
@@ -38,14 +45,14 @@ class WeblogController extends Controller
     public function store(StoreWeblogRequest $request)
     {
         $category_ids = $request->input('category_ids');
+        $validated = $request->validated();
+
         if ($request->image) {
             $imageName = $request->image->getClientOriginalName();
-            Storage::put($imageName, file_get_contents($request->image));
-            //dd($validated);
+            Storage::disk('public')->put($imageName, file_get_contents($request->image));
+            $validated['image'] = $imageName;
         }
-        
-        $validated = $request->validated();
-        $validated['image'] = $imageName;
+
         $validated['user_id'] = Auth::id();
         $weblog = Weblog::create($validated);
         $weblog->categories()->sync(array_values($category_ids));
@@ -60,7 +67,6 @@ class WeblogController extends Controller
         $categories = $weblog->categories()->get();
         $comments = Comment::where('weblog_id', $weblog->id)->get();
         $image = Storage::url($weblog->image);
-        //dd($image);
         return view('weblogs.show', compact('weblog', 'comments', 'categories', 'image'));
     }
 

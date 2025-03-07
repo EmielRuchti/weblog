@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreCommentRequest;
-use App\Http\Requests\UpdateCommentRequest;
-use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class CommentController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,18 +27,9 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCommentRequest $request, string $weblog_id)
+    public function store(Request $request)
     {
-        $validated = $request->validated();
-        $validated['weblog_id'] = $weblog_id;
-        if(!Auth::check()) {
-            return back()->withErrors([
-                'comment' => 'U kan geen comments plaatsen zonder account.'
-            ])->onlyInput('comment');
-        }
-        $validated['user_id'] = Auth::id();
-        Comment::create($validated);
-        return redirect()->back();
+        //
     }
 
     /**
@@ -54,9 +43,12 @@ class CommentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
-        //
+        $user = Auth::user();
+        $user->premium = true;
+        $user->save();
+        return redirect()->route('profile.index');
     }
 
     /**

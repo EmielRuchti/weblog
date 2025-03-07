@@ -3,7 +3,13 @@
 @section('title', 'Profile')
 
 @section('content')
-    <a href="{{ route('categories.index') }}">Categorien</a>
+    <h2><a href="{{ route('categories.index') }}">Bekijk en maak nieuwe categorien</a></h2>
+
+    @if($is_premium === 1)
+        <h2>Premium Gebruiker</h2>
+    @else
+        <h2><a href="{{ route('profile.premium') }}">Get Premium</a></h2>
+    @endif
 
     <h1>Overzicht eigen weblogs</h1>
     <table>

@@ -24,6 +24,10 @@
     <br>
     <input type='file' name='image' id='image'>
     <br>
+    <label for='premium'>Premium Weblog:</label>
+    <br>
+    <input type='checkbox' name='premium' id='premium' value='1'>
+    <br>
     <button type="submit">Opslaan</button>
     </form>
 @endsection

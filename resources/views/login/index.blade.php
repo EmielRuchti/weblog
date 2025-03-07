@@ -16,6 +16,6 @@
     </form>
 
     @if($errors->any())
-    <h3>{{$errors->first()}}</h3>
+        <h3 style='color:red'>{{$errors->first()}}</h3>
     @endif
 @endsection

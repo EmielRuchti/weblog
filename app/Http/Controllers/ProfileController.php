@@ -14,9 +14,10 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        $is_premium = $is_premium = Auth::check() ? Auth::user()->premium : 0;
         $user_id = Auth::id();
         $weblogs = Weblog::where('user_id', $user_id)->orderBy('created_at', 'desc')->get();
-        return view('weblogs.profile', compact('weblogs'));
+        return view('weblogs.profile', compact('weblogs', 'is_premium'));
     }
 
     /**
@@ -65,5 +66,11 @@ class ProfileController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function premium()
+    {
+        $is_premium = Auth::check() ? Auth::user()->premium : 0;
+        return view('weblogs.premium', compact('is_premium'));
     }
 }

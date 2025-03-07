@@ -24,6 +24,7 @@ class StoreWeblogRequest extends FormRequest
         return [
             'title' => 'required|max:255',
             'body' => 'nullable',
+            'premium' => 'boolean',
             //'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }

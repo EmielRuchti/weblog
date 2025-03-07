@@ -1,7 +1,9 @@
 <nav>
     <ul>
        <li><a href="{{ route('profile.index') }}">Profile</a></li>
-       <li><a href="{{ route('weblogs.index') }}">Item List</a></li>
-       <li><a href="{{ route('weblogs.create') }}">Create Item</a></li>
+       <li><a href="{{ route('weblogs.index') }}">Weblogs</a></li>
+       <li><a href="{{ route('weblogs.create') }}">Maak een weblog</a></li>
+       <li><a href="{{ route('profile.premium') }}">Weblog Premium</a></li>
+       <li><a href="{{ route('logout') }}">Login/Logout</a></li>
     </ul>
 </nav>

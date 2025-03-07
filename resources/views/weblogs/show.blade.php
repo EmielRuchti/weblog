@@ -43,4 +43,8 @@
         <button type="submit">Plaats commentaar</button>
         </form>
     </div>
+
+    @if($errors->any())
+    <h3 style='color:red'>{{$errors->first()}}</h3>
+    @endif
 @endsection

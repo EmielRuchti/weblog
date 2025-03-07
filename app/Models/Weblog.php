@@ -13,6 +13,7 @@ class Weblog extends Model
         'title',
         'body',
         'user_id',
+        'premium',
         'image',
     ];
 

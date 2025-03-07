@@ -42,11 +42,12 @@ class CategoryController extends Controller
      */
     public function show(Request $request)
     {   
+        $is_premium = Auth::check() ? Auth::user()->premium : 0;
         $category_ids = $request->input('category_ids');
         if ($category_ids[0] === 'select') return redirect()->route('weblogs.index');
 
         $categories = Category::all();
-        $weblogs = Weblog::whereHas('categories', fn($query) => $query->whereIn('categories.id', array_values($category_ids)))->orderBy('created_at', 'desc')->get();
+        $weblogs = Weblog::whereHas('categories', fn($query) => $query->whereIn('categories.id', array_values($category_ids)))->where('premium',$is_premium)->orderBy('created_at', 'desc')->get();
         return view('weblogs.index', compact('weblogs','categories'));
     }
 
