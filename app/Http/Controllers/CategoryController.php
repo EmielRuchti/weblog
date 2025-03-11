@@ -54,6 +54,13 @@ class CategoryController extends Controller
         $weblogs = $category->weblogs;
         
         //Does filter
+
+        if($is_premium === 1) {
+            $weblogs = Weblog::whereHas('categories', fn($query) => $query->whereIn('categories.id', array_values($category_ids)))->orderBy('created_at', 'desc')->get();
+        } else {
+            $weblogs = Weblog::whereHas('categories', fn($query) => $query->whereIn('categories.id', array_values($category_ids)))->where('premium',$is_premium)->orderBy('created_at', 'desc')->get();
+        }
+
         // $weblogs = Weblog::whereHas('categories', fn($query) => $query->whereIn('categories.id', array_values($category_ids)))->where('premium',$is_premium)->orderBy('created_at', 'desc')->get();
         return view('weblogs.index', compact('weblogs','categories'));
     }
